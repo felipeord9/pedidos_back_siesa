@@ -11,6 +11,15 @@ const OrderSchema = {
     primaryKey: true,
     autoIncrement: true,
   },
+  deliveryDate: {
+    type: DataTypes.DATEONLY,
+    allowNull: false,
+    field: 'delivery_field'
+  },
+  observations: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
   clientId: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -50,7 +59,7 @@ const OrderSchema = {
     field: "created_at",
   },
   total: {
-    type: DataTypes.VIRTUAL,
+    type: DataTypes.BIGINT,
     get() {
       if (this.items) {
         if (this.items.length > 0) {

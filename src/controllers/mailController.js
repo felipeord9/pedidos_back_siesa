@@ -20,7 +20,7 @@ const sendMail = async (req, res, next) => {
           }
           tbody {
             display: block;
-            height: 500px;
+            min-height: 100vh;
           }
           tr {
             display: table;
@@ -63,7 +63,7 @@ const sendMail = async (req, res, next) => {
                 right: 0;
               "
             >
-              <p style="border-bottom: 1px solid black; padding: 0.3rem 0.5rem; margin: 0;"><strong>No.</strong></p>
+              <p style="border-bottom: 1px solid black; background-color: #d6d6d6; padding: 0.3rem 0.5rem; margin: 0;"><strong>No. ${body.seller.co}-PDV-${body.id}</strong></p>
               <p style="padding: 0.2rem 0.5rem; margin: 0;"><strong>Fecha: </strong>${new Date().toLocaleDateString()}</p>
             </div>
           </div>
@@ -108,7 +108,7 @@ const sendMail = async (req, res, next) => {
               <table style="width: 100%; height: 100%;">
                 <thead>
                   <tr>
-                    <th>Ref.</th>
+                    <th style="width: 30px;">Ref.</th>
                     <th>Descripción</th>
                     <th>Cantidad</th>
                     <th>UM</th>
@@ -120,7 +120,7 @@ const sendMail = async (req, res, next) => {
                   ${body.products.agregados.map((elem) => {
                     return `
                         <tr>
-                          <td>${elem.id}</td>
+                          <td style="width: 30px;">${elem.id}</td>
                           <td>${elem.description}</td>
                           <td>${elem.amount}</td>
                           <td>${elem.um}</td>
@@ -166,7 +166,7 @@ const sendMail = async (req, res, next) => {
           subject: "PEDIDO DE VENTA",
           attachments: [
             {
-              filename: `No-001-PDV-00030166.pdf`,
+              filename: `No-${body.seller.co}-PDV-${body.id}.pdf`,
               content: pdfBuffer,
               contentType: "application/pdf",
             },

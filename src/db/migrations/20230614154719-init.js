@@ -6,7 +6,7 @@ const { CLIENT_TABLE, ClientSchema } = require("../models/clientModel");
 const { SELLER_TABLE, SellerSchema } = require("../models/sellerModel");
 const { BRANCH_TABLE, BranchSchema} = require('../models/branchModel')
 const { ORDER_TABLE, OrderSchema, Order} = require('../models/orderModel')
-const { ORDER_PRODUCT_TABLE, ORDER_PRODUCT_TABLE, OrderProductSchema} = require('../models/order-productModel')
+const { ORDER_PRODUCT_TABLE, OrderProductSchema} = require('../models/order-productModel')
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {

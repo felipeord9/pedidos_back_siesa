@@ -162,7 +162,8 @@ const sendMail = async (req, res, next) => {
       transporter.sendMail(
         {
           from: config.smtpEmail,
-          to: 'practicantesistemas@granlangostino.net',
+          to: body.seller.mailAgency,
+          cc: body.seller.mailCommercial,
           subject: "PEDIDO DE VENTA",
           attachments: [
             {

@@ -7,7 +7,7 @@ const options = {
   dialect: 'postgres',
   logging: !config.isProd
 }
-
+console.log(config.isProd)
 if(config.isProd) {
   options.dialectOptions = {
     ssl: {

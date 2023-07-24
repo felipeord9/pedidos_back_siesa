@@ -7,13 +7,14 @@ const { port, host } = config;
 
 const app = express();
 
-let corsOptions = {
+/* let corsOptions = {
   origin: 'https://pedidos.granlangostino.net:5515',
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}
+} */
 
 app.use(express.json());
-app.use(cors(corsOptions));
+app.use(cors())
+//app.use(cors(corsOptions));
 
 routerApi(app)
 

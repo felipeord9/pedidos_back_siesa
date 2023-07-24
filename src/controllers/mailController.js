@@ -159,6 +159,7 @@ const sendMail = async (req, res, next) => {
           error
         });
       }
+      console.log(body)
       transporter.sendMail(
         {
           from: config.smtpEmail,

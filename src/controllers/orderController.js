@@ -30,7 +30,24 @@ const findOneOrder = async (req, res, next) => {
 const createOrder = async (req, res, next) => {
   try {
     const { body } = req
-    const data = await OrderService.create(body)
+    const data = await OrderService.create({
+      deliveryDate: body.deliveryDate,
+      observations: body.observations,
+      clientId: parseInt(body.client.id),
+      sellerId: body.seller.id,
+      branchId: body.branch.id,
+      createdAt: body.createdAt,
+      total: parseInt(body.products.total.split('.').join(''))
+    })
+    
+    for(let product of body.products.agregados) {
+      await OrderService.addItem({
+        amount: parseInt(product.amount),
+        price: parseInt(product.price.split('.').join('')),
+        orderId: data.id,
+        productId: product.id
+      })
+    }
 
     res.status(201).json({
       message: 'Created',

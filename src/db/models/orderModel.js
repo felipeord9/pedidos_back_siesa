@@ -17,11 +17,11 @@ const OrderSchema = {
     field: 'delivery_field'
   },
   observations: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: true
   },
   clientId: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.BIGINT,
     allowNull: false,
     field: "client_id",
     references: {
@@ -60,16 +60,7 @@ const OrderSchema = {
   },
   total: {
     type: DataTypes.BIGINT,
-    get() {
-      if (this.items) {
-        if (this.items.length > 0) {
-          return this.items.reduce((acc, item) => {
-            return acc + item.OrderProduct.price * item.OrderProduct.amount;
-          });
-        }
-        return 0;
-      }
-    },
+    allowNull: false
   },
 };
 

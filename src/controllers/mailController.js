@@ -63,7 +63,7 @@ const sendMail = async (req, res, next) => {
                 right: 0;
               "
             >
-              <p style="border-bottom: 1px solid black; background-color: #d6d6d6; padding: 0.3rem 0.5rem; margin: 0;"><strong>No. ${body.seller.co}-PDV-${body.id}</strong></p>
+              <p style="border-bottom: 1px solid black; background-color: #d6d6d6; padding: 0.3rem 0.5rem; margin: 0;"><strong>No.${body.seller.co}-PDV-${body.id}</strong></p>
               <p style="padding: 0.2rem 0.5rem; margin: 0;"><strong>Fecha: </strong>${new Date().toLocaleDateString()}</p>
             </div>
           </div>
@@ -162,6 +162,7 @@ const sendMail = async (req, res, next) => {
       transporter.sendMail(
         {
           from: config.smtpEmail,
+          //to: 'practicantesistemas@granlangostino.net',
           to: body.seller.mailAgency,
           cc: body.seller.mailCommercial,
           subject: "PEDIDO DE VENTA",

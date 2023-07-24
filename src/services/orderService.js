@@ -30,16 +30,17 @@ const finOne = (id) => {
   return order
 }
 
-const create = (body) => {
-  const newOrder = models.Order.create(body)
-  return newOrder
-}
-
 const addItem = (body) => {
   const newItem = models.OrderProduct.create(body)
 
   return newItem
 }
+
+const create = async (body) => {
+  const newOrder = models.Order.create(body)
+  return newOrder
+}
+
 
 module.exports = {
   find,

@@ -7,8 +7,8 @@ const { port, host } = config;
 
 const app = express();
 
-var corsOptions = {
-  origin: 'http://pedidos.granlangostino.net:5515',
+let corsOptions = {
+  origin: 'https://pedidos.granlangostino.net:5515',
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 

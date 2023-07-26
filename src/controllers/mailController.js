@@ -63,7 +63,9 @@ const sendMail = async (req, res, next) => {
                 right: 0;
               "
             >
-              <p style="border-bottom: 1px solid black; background-color: #d6d6d6; padding: 0.3rem 0.5rem; margin: 0;"><strong>No.${body.seller.co}-PDV-${body.id}</strong></p>
+              <p style="border-bottom: 1px solid black; background-color: #d6d6d6; padding: 0.3rem 0.5rem; margin: 0;"><strong>No.${
+                body.seller.co
+              }-PDV-${body.id}</strong></p>
               <p style="padding: 0.2rem 0.5rem; margin: 0;"><strong>Fecha: </strong>${new Date().toLocaleDateString()}</p>
             </div>
           </div>
@@ -90,7 +92,9 @@ const sendMail = async (req, res, next) => {
               </div>
               <div style="position: absolute; top: 0; right: 0; border: 1px solid black; border-radius: 5px; width: 35%; padding: 10px;">
                 <div>
-                  <p style="margin: 0; width: 100%;"><strong style="margin-right: 10px;">C.O: </strong>${body.seller.co}</p>
+                  <p style="margin: 0; width: 100%;"><strong style="margin-right: 10px;">C.O: </strong>${
+                    body.seller.co
+                  }</p>
                 </div>
                 <div>
                   <p style="margin: 0; width: 100%;"><strong style="margin-right: 10px; white-space: nowrap;">Fecha Entrega:</strong>${
@@ -104,7 +108,7 @@ const sendMail = async (req, res, next) => {
                 </div>
               </div>
             </div>
-            <div style="display: inline-block; width: 100%; border: 1px solid black;">
+            <div style="width: 100%; border: 1px solid black;">
               <table style="width: 100%; height: 100%;">
                 <thead>
                   <tr>
@@ -134,7 +138,9 @@ const sendMail = async (req, res, next) => {
                   <tr>
                     <td className="fw-bold">TOTAL</td>
                     <td colspan="4"></td>
-                    <td className="fw-bold text-end">$${body.products.total}</td>
+                    <td className="fw-bold text-end">$${
+                      body.products.total
+                    }</td>
                   </tr>
                 </tfoot>
               </table>
@@ -149,24 +155,23 @@ const sendMail = async (req, res, next) => {
         </div>
       </body>
     </html>
-    
     `;
     const transporter = await mailService.sendEmails();
     mailService.generatePDF(html, (error, pdfBuffer) => {
       if (error) {
         return res.status(400).json({
-          status: 'ERROR',
-          error
+          status: "ERROR",
+          error,
         });
       }
-      console.log(body)
+      
       transporter.sendMail(
         {
           from: config.smtpEmail,
           //to: 'practicantesistemas@granlangostino.net',
           to: body.seller.mailAgency,
           cc: body.seller.mailCommercial,
-          subject: "PEDIDO DE VENTA",
+          subject: "NUEVO PEDIDO DE VENTA",
           attachments: [
             {
               filename: `No-${body.seller.co}-PDV-${body.id}.pdf`,
@@ -174,7 +179,10 @@ const sendMail = async (req, res, next) => {
               contentType: "application/pdf",
             },
           ],
-          text: "Prueba Pedido de venta en PDF",
+          text: `
+            Nuevo Pedido de Venta
+            Se adjunta archivo en formato PDF
+          `,
         },
         (error, info) => {
           if (error) {

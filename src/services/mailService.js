@@ -20,6 +20,7 @@ async function sendEmails() {
 
 async function generatePDF(info, callback) {
   pdf.create(info, {
+    format: "A4",
     childProcessOptions: {
       env: {
         OPENSSL_CONF: '/dev/null',

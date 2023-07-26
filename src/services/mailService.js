@@ -19,7 +19,13 @@ async function sendEmails() {
 }
 
 async function generatePDF(info, callback) {
-  pdf.create(info).toBuffer((error, buffer) => {
+  pdf.create(info, {
+    childProcessOptions: {
+      env: {
+        OPENSSL_CONF: '/dev/null',
+      },
+    }
+  }).toBuffer((error, buffer) => {
     if(error) {
       callback(error, null)
     } else {

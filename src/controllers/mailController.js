@@ -10,6 +10,9 @@ const sendMail = async (req, res, next) => {
     <html lang="en">
       <head>
         <style>
+          * {
+          font-size: 8px;
+          }
           table {
             border-collapse: collapse;
             width: 100%;
@@ -45,10 +48,10 @@ const sendMail = async (req, res, next) => {
             padding: 1rem 2rem;
           "
         >
-          <h1 style="text-align: center; font-size: 20px; font-weight: bold">PEDIDO DE VENTA</h1>
-          <div style="position: relative; font-size: 13px; width: 100%; height: 100%;">
+          <h1 style="text-align: center; font-size: 13px; font-weight: bold">PEDIDO DE VENTA</h1>
+          <div style="position: relative; font-size: 8px; width: 100%; height: 100%;">
             <div style="margin: auto;">
-              <h2 style="font-size: 13px; font-weight: bolder; margin: 0">
+              <h2 style="font-size: 8px; font-weight: bolder; margin: 0">
                 EL GRAN LANGOSTINO S.A.S.
               </h2>
               <p style="margin: 0.3rem 0;"><strong>Nit: 835001216</strong></p>
@@ -66,43 +69,43 @@ const sendMail = async (req, res, next) => {
               <p style="border-bottom: 1px solid black; background-color: #d6d6d6; padding: 0.3rem 0.5rem; margin: 0;"><strong>No.${
                 body.seller.co
               }-PDV-${body.id}</strong></p>
-              <p style="padding: 0.2rem 0.5rem; margin: 0;"><strong>Fecha: </strong>${new Date().toLocaleDateString()}</p>
+              <p style="padding: 0.2rem 0.5rem; margin: 0; white-space: nowrap;"><strong>Fecha: </strong>${new Date().toLocaleString('es-CO')}</p>
             </div>
           </div>
           <hr style="width: 100%; border: 1.5px solid black;"/>
           <div style="width: 100%; font-size: 13px; margin-top: 10px;">
             <div style="position: relative; margin-bottom: 1rem;">
-              <div style="position: relative; border: 1px solid black; border-radius: 5px; width: 55%; padding: 10px;">
-                <h3 style="background: #fff; font-size: 13px; position: absolute; top: -8px; left: 25px; margin: 0; padding: 0px 10px;">Cliente</h3>
+              <div style="position: relative; border: 1px solid black; border-radius: 5px; width: 55%; padding: 1rem;">
+                <h3 style="background: #fff; font-size: 8px; position: absolute; top: -8px; left: 25px; margin: 0; padding: 0px 10px;">Cliente</h3>
                 <div>
-                  <p style="margin: 0; width: 100%;"><strong style="margin-right: 10px;">Nombre: </strong>${
+                  <p style="margin: 0; width: 100%;"><strong style="margin-right: 0.5rem;">Nombre: </strong>${
                     body.client.description
                   }</p>
                 </div>
                 <div>
-                  <p style="margin: 0; width: 100%;"><strong style="margin-right: 10px;">Sucursal: </strong>${
+                  <p style="margin: 0; width: 100%;"><strong style="margin-right: 0.5rem;">Sucursal: </strong>${
                     body.branch.description
                   }</p>
                 </div>
                 <div>
-                  <p style="margin: 0; width: 100%;"><strong style="margin-right: 10px;">Nit: </strong>${
+                  <p style="margin: 0; width: 100%;"><strong style="margin-right: 0.5rem;">Nit: </strong>${
                     body.client.id
                   }</p>
                 </div>
               </div>
-              <div style="position: absolute; top: 0; right: 0; border: 1px solid black; border-radius: 5px; width: 35%; padding: 10px;">
+              <div style="position: absolute; top: 0; right: 0; border: 1px solid black; border-radius: 5px; width: 35%; padding: 1rem;">
                 <div>
-                  <p style="margin: 0; width: 100%;"><strong style="margin-right: 10px;">C.O: </strong>${
+                  <p style="margin: 0; width: 100%;"><strong style="margin-right: 0.5rem;">C.O: </strong>${
                     body.seller.co
                   }</p>
                 </div>
                 <div>
-                  <p style="margin: 0; width: 100%;"><strong style="margin-right: 10px; white-space: nowrap;">Fecha Entrega:</strong>${
+                  <p style="margin: 0; width: 100%;"><strong style="margin-right: 0.5rem; white-space: nowrap;">Fecha Entrega:</strong>${
                     body.deliveryDate
                   }</p>
                 </div>
                 <div>
-                  <p style="margin: 0; width: 100%;"><strong style="margin-right: 10px; white-space: nowrap;">Vendedor:</strong>${
+                  <p style="margin: 0; width: 100%;"><strong style="margin-right: 0.5rem; white-space: nowrap;">Vendedor:</strong>${
                     body.seller.description
                   }</p>
                 </div>
@@ -146,7 +149,7 @@ const sendMail = async (req, res, next) => {
               </table>
             </div>
             <div style="position: relative; border: 1px solid black; margin-top: 1rem;">
-              <h3 style="background: #fff; font-size: 13px; position: absolute; top: -8px; left: 25px; margin: 0; padding: 0px 10px;">Observaciones</h3>
+              <h3 style="background: #fff; font-size: 8px; position: absolute; top: -8px; left: 25px; margin: 0; padding: 0px 10px;">Observaciones</h3>
               <p style="margin: 0; padding: 1rem;">
               ${body.observations}
               </p>

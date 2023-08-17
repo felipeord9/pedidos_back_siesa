@@ -33,6 +33,7 @@ const createOrder = async (req, res, next) => {
     const data = await OrderService.create({
       deliveryDate: body.deliveryDate,
       observations: body.observations,
+      purchaseOrder: body.purchaseOrder,
       clientId: parseInt(body.client.id),
       sellerId: body.seller.id,
       branchId: body.branch.id,
@@ -54,7 +55,7 @@ const createOrder = async (req, res, next) => {
       data
     })
   } catch (error) {
-    next(error)
+    console.log(error)
   }
 }
 

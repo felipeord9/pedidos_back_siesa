@@ -13,7 +13,7 @@ async function sendEmails() {
     }
   })
 
-  if(!transporter) throw new Error('Error')
+  if(!transporter) throw new Error('Error al conectar con el servidor de correo')
 
   return transporter
 }

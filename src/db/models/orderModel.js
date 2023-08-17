@@ -20,6 +20,11 @@ const OrderSchema = {
     type: DataTypes.TEXT,
     allowNull: true
   },
+  purchaseOrder: {
+    type:DataTypes.STRING,
+    allowNull: true,
+    field: 'purchase_order'
+  },
   clientId: {
     type: DataTypes.BIGINT,
     allowNull: false,

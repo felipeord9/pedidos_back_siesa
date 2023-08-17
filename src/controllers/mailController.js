@@ -1,10 +1,11 @@
 const mailService = require("../services/mailService");
 const { config } = require("../config/config");
+const path = require("path");
 
 const sendMail = async (req, res, next) => {
   try {
-    const { body } = req;
-
+    const { info } = req.body;
+    const body = JSON.parse(info);
     const html = `
     <!DOCTYPE html>
     <html lang="en">
@@ -69,12 +70,14 @@ const sendMail = async (req, res, next) => {
               <p style="border-bottom: 1px solid black; background-color: #d6d6d6; padding: 0.3rem 0.5rem; margin: 0;"><strong>No.${
                 body.seller.co
               }-PDV-${body.id}</strong></p>
-              <p style="padding: 0.2rem 0.5rem; margin: 0; white-space: nowrap;"><strong>Fecha: </strong>${new Date().toLocaleString('es-CO')}</p>
+              <p style="padding: 0.2rem 0.5rem; margin: 0; white-space: nowrap;"><strong>Fecha: </strong>${new Date().toLocaleString(
+                "es-CO"
+              )}</p>
             </div>
           </div>
           <hr style="width: 100%; border: 1.5px solid black;"/>
           <div style="width: 100%; font-size: 13px; margin-top: 10px;">
-            <div style="position: relative; margin-bottom: 1rem;">
+            <div style="position: relative; margin-bottom: 2rem;">
               <div style="position: relative; border: 1px solid black; border-radius: 5px; width: 55%; padding: 1rem;">
                 <h3 style="background: #fff; font-size: 8px; position: absolute; top: -8px; left: 25px; margin: 0; padding: 0px 10px;">Cliente</h3>
                 <div>
@@ -97,6 +100,11 @@ const sendMail = async (req, res, next) => {
                 <div>
                   <p style="margin: 0; width: 100%;"><strong style="margin-right: 0.5rem;">C.O: </strong>${
                     body.seller.co
+                  }</p>
+                </div>
+                <div>
+                  <p style="margin: 0; width: 100%;"><strong style="margin-right: 0.5rem;">Orden Compra: </strong>${
+                    body.purchaseOrder
                   }</p>
                 </div>
                 <div>
@@ -159,6 +167,12 @@ const sendMail = async (req, res, next) => {
       </body>
     </html>
     `;
+    const txt = `C.O,NIT TERCERO,SUCURSAL,ORDEN_COMPRA,NOTAS,ID_TERCERO,REFERENCIA,UM,CANTIDAD,PRECIO
+      ${body.products.agregados.map(
+        (elem) =>
+          `${body.seller.co},${body.client.id},${body.branch.branch},${body.purchaseOrder},${body.observations},${body.seller.id},${elem.id},${elem.um},${elem.amount},${elem.price}\n`
+      )}`;
+
     const transporter = await mailService.sendEmails();
     mailService.generatePDF(html, (error, pdfBuffer) => {
       if (error) {
@@ -167,24 +181,197 @@ const sendMail = async (req, res, next) => {
           error,
         });
       }
-      
+
+      const attachments = [
+        {
+          filename: `No-${body.seller.co}-PDV-${body.id}.pdf`,
+          content: pdfBuffer,
+          contentType: "application/pdf",
+        },
+        {
+          filename: `No-${body.seller.co}-PDV-${body.id}.txt`,
+          content: txt,
+        },
+      ];
+
+      req.file &&
+        attachments.push({
+          filename: req.file.originalname,
+          content: req.file.buffer,
+          contentType: req.file.mimetype,
+        });
+
       transporter.sendMail(
         {
           from: config.smtpEmail,
-          //to: 'practicantesistemas@granlangostino.net',
-          to: body.seller.mailAgency,
-          cc: body.seller.mailCommercial,
-          subject: "NUEVO PEDIDO DE VENTA",
-          attachments: [
-            {
-              filename: `No-${body.seller.co}-PDV-${body.id}.pdf`,
-              content: pdfBuffer,
-              contentType: "application/pdf",
-            },
-          ],
-          text: `
-            Nuevo Pedido de Venta
-            Se adjunta archivo en formato PDF
+          to: "practicantesistemas@granlangostino.net",
+          //to: body.seller.mailAgency,
+          //cc: body.seller.mailCommercial,
+          subject: "¡NUEVO PEDIDO DE VENTA!",
+          attachments,
+          html: `
+          <!DOCTYPE html>
+          <html lang="en">
+            <head>
+              <meta charset="UTF-8" />
+              <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+              <link rel="preconnect" href="https://fonts.googleapis.com" />
+              <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+              <link
+                href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;500;700;900&display=swap"
+                rel="stylesheet"
+              />
+              <title>PEDIDO DE VENTA</title>
+              <style>
+                body {
+                  font-family: Arial, sans-serif;;
+                  line-height: 1.5;
+                  color: #333;
+                  margin: 0;
+                  padding: 0;
+                }
+          
+                .container {
+                  max-width: 600px;
+                  margin: 0 auto;
+                  padding: 20px;
+                  border: 1px solid #ccc;
+                  border-radius: 5px;
+                }
+          
+                .header {
+                  background-color: #f03c3c;
+                  padding: 5px;
+                  text-align: center;
+                }
+          
+                .header h1 {
+                  color: #fff;
+                  font-size: medium;
+                  margin: 0;
+                }
+          
+                .invoice-details {
+                  margin-top: 20px;
+                }
+          
+                .invoice-details p {
+                  margin: 0;
+                }
+          
+                .logo {
+                  text-align: right;
+                }
+          
+                .logo img {
+                  max-width: 200px;
+                }
+          
+                .invoice-table {
+                  width: 100%;
+                  border-collapse: collapse;
+                  margin-top: 20px;
+                }
+          
+                .invoice-table th,
+                .invoice-table td {
+                  padding: 10px;
+                  border: 1px solid #ccc;
+                  text-align: center;
+                }
+          
+                .invoice-table th {
+                  background-color: #f1f1f1;
+                }
+          
+                .warning {
+                  text-align: center;
+                  margin-top: 20px;
+                }
+          
+                .warning p {
+                  margin: 0;
+                }
+          
+                .att {
+                  text-align: center;
+                  margin-top: 20px;
+                }
+          
+                .att p {
+                  margin: 0;
+                }
+          
+                .att a {
+                  text-decoration: none;
+                }
+          
+                .footer {
+                  margin-top: 20px;
+                  text-align: center;
+                  color: #888;
+                }
+              </style>
+            </head>
+            <body>
+              <div class="container">
+                <div class="header">
+                  <h1>¡NUEVO PEDIDO DE VENTA!</h1>
+                </div>
+          
+                <div class="invoice-details">
+                  <table width="100%">
+                    <tr>
+                      <td>
+                        <p><strong>Número de factura:</strong> ${body.id}</p>
+                        <p><strong>Cliente:</strong> ${body.client.description}</p>
+                        <p><strong>Sucursal:</strong> ${body.branch.description}</p>
+                        <p><strong>Vendedor:</strong> ${body.seller.description}</p>
+                      </td>
+                      <td class="logo">
+                        <img
+                          src="https://sucursales.granlangostino.com/wp-content/uploads/2022/12/cropped-Logo-el-gran-langostino.png"
+                          alt="Logo de la empresa"
+                        />
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+          
+                <div class="warning">
+                  <p><strong>Por favor revisar los archivos antes de cualquier acción.</strong></p>
+                </div>
+          
+                <div class="att">
+                  <p>Cordialmente,</p>
+                  <p>
+                    EL GRAN LANGOSTINO S.A.S <br>
+                    Línea Nacional 018000 180133 <br>
+                    Calle 13 #32-417 Bodega 4 Acopi - Yumbo, Valle <br> 
+                    <a href="https://tienda.granlangostino.com/">www.granlangostino.com</a>
+                  </p>
+                </div>
+          
+                <div class="footer">
+                  <p><u>Aviso Legal</u></p>
+                  <p>
+                    SU CORREO LO TENEMOS REGISTRADO DENTRO DE NUESTRA BASE DE
+                    DATOS COMO CORREO/CONTACTO CORPORATIVO (DATO PÚBLICO), POR LO TANTO,
+                    SI NO DESEA SEGUIR RECIBIENDO INFORMACIÓN DE NUESTRA EMPRESA, LE
+                    AGRADECEMOS NOS INFORME AL RESPECTO. El contenido de este mensaje de
+                    correo electrónico y todos los archivos adjuntos a éste contienen
+                    información de carácter confidencial y/o uso privativo de EL GRAN
+                    LANGOSTINO S.A.S y de sus destinatarios. Si usted recibió este mensaje
+                    por error, por favor elimínelo y comuníquese con el remitente para
+                    informarle de este hecho, absteniéndose de divulgar o hacer cualquier
+                    copia de la información ahí contenida, gracias. En caso contrario
+                    podrá ser objeto de sanciones legales conforme a la ley 1273 de 2009.
+                  </p>
+                </div>
+              </div>
+            </body>
+          </html>
+          
           `,
         },
         (error, info) => {

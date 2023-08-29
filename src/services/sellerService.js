@@ -1,7 +1,10 @@
-const { models } = require('../libs/sequelize')
+const { models } = require('../libs/sqlServer')
 
 const find = () => {
-  const sellers = models.Seller.findAll()
+  const sellers = models.Vendedor.findAll({
+    limit: 50,
+    include: ['tercero']
+  })
   return sellers
 }
 

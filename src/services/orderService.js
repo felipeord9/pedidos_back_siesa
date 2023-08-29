@@ -1,50 +1,44 @@
-const { models } = require("../libs/sequelize");
+const { models } = require("../libs/postgres");
 
 const find = () => {
   const orders = models.Order.findAll({
-    include: [
-      "client",
-      "seller",
-      "branch",
-      "items"
-    ],
+    include: ["client", "seller", "branch", "items"],
   });
 
-  return orders
+  return orders;
 };
 
 const finOne = (id) => {
-  const order = models.Order.findByPk(id,{
+  const order = models.Order.findByPk(id, {
     include: [
       "client",
       "seller",
       "branch",
       {
-        association: "items"
+        association: "items",
       },
     ],
-  })
+  });
 
-  if(!order) throw Error('No se encontró la orden')
+  if (!order) throw Error("No se encontró la orden");
 
-  return order
-}
+  return order;
+};
 
 const addItem = (body) => {
-  const newItem = models.OrderProduct.create(body)
+  const newItem = models.OrderProduct.create(body);
 
-  return newItem
-}
+  return newItem;
+};
 
 const create = async (body) => {
   const newOrder = models.Order.create(body)
   return newOrder
-}
-
+};
 
 module.exports = {
   find,
   finOne,
   create,
-  addItem
-}
+  addItem,
+};

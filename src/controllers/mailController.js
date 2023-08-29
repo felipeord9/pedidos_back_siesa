@@ -1,6 +1,5 @@
 const mailService = require("../services/mailService");
 const { config } = require("../config/config");
-const path = require("path");
 
 const sendMail = async (req, res, next) => {
   try {
@@ -68,7 +67,7 @@ const sendMail = async (req, res, next) => {
               "
             >
               <p style="border-bottom: 1px solid black; background-color: #d6d6d6; padding: 0.3rem 0.5rem; margin: 0;"><strong>No.${
-                body.seller.co
+                body.branch?.co?.id
               }-PDV-${body.id}</strong></p>
               <p style="padding: 0.2rem 0.5rem; margin: 0; white-space: nowrap;"><strong>Fecha: </strong>${new Date().toLocaleString(
                 "es-CO"
@@ -82,24 +81,24 @@ const sendMail = async (req, res, next) => {
                 <h3 style="background: #fff; font-size: 8px; position: absolute; top: -8px; left: 25px; margin: 0; padding: 0px 10px;">Cliente</h3>
                 <div>
                   <p style="margin: 0; width: 100%;"><strong style="margin-right: 0.5rem;">Nombre: </strong>${
-                    body.client.description
+                    body.client.razonSocial
                   }</p>
                 </div>
                 <div>
                   <p style="margin: 0; width: 100%;"><strong style="margin-right: 0.5rem;">Sucursal: </strong>${
-                    body.branch.description
+                    body.branch.descripcion
                   }</p>
                 </div>
                 <div>
                   <p style="margin: 0; width: 100%;"><strong style="margin-right: 0.5rem;">Nit: </strong>${
-                    body.client.id
+                    body.client.nit
                   }</p>
                 </div>
               </div>
               <div style="position: absolute; top: 0; right: 0; border: 1px solid black; border-radius: 5px; width: 35%; padding: 1rem;">
                 <div>
                   <p style="margin: 0; width: 100%;"><strong style="margin-right: 0.5rem;">C.O: </strong>${
-                    body.seller.co
+                    body.branch?.co?.id
                   }</p>
                 </div>
                 <div>
@@ -114,7 +113,7 @@ const sendMail = async (req, res, next) => {
                 </div>
                 <div>
                   <p style="margin: 0; width: 100%;"><strong style="margin-right: 0.5rem; white-space: nowrap;">Vendedor:</strong>${
-                    body.seller.description
+                    body.seller.tercero.razonSocial
                   }</p>
                 </div>
               </div>
@@ -167,10 +166,10 @@ const sendMail = async (req, res, next) => {
       </body>
     </html>
     `;
-    const txt = `C.O,NIT TERCERO,SUCURSAL,ORDEN_COMPRA,NOTAS,ID_TERCERO,REFERENCIA,UM,CANTIDAD,PRECIO
+    const txt = `C.O,NIT TERCERO,SUCURSAL,ORDEN_COMPRA,NOTAS,ID_VENDEDOR,REFERENCIA,UM,CANTIDAD,PRECIO
       ${body.products.agregados.map(
         (elem) =>
-          `${body.seller.co},${body.client.id},${body.branch.branch},${body.purchaseOrder},${body.observations},${body.seller.id},${elem.id},${elem.um},${elem.amount},${elem.price}\n`
+          `${body.branch?.co?.id},${body.client.nit},${body.branch.branch},${body.purchaseOrder},${body.observations},${body.seller.id},${elem.id},${elem.um},${elem.amount},${elem.price}\n`
       )}`;
 
     const transporter = await mailService.sendEmails();
@@ -184,12 +183,12 @@ const sendMail = async (req, res, next) => {
 
       const attachments = [
         {
-          filename: `No-${body.seller.co}-PDV-${body.id}.pdf`,
+          filename: `No-${body.branch?.co?.id}-PDV-${body.id}.pdf`,
           content: pdfBuffer,
           contentType: "application/pdf",
         },
         {
-          filename: `No-${body.seller.co}-PDV-${body.id}.txt`,
+          filename: `No-${body.branch?.co?.id}-PDV-${body.id}.txt`,
           content: txt,
         },
       ];
@@ -204,9 +203,9 @@ const sendMail = async (req, res, next) => {
       transporter.sendMail(
         {
           from: config.smtpEmail,
-          //to: "practicantesistemas@granlangostino.net",
-          to: body.seller.mailAgency,
-          cc: body.seller.mailCommercial,
+          to: "practicantesistemas@granlangostino.net",
+          //to: body.seller.tercero.contacto.email,
+          //cc: body.branch.co.contacto.email,
           subject: "¡NUEVO PEDIDO DE VENTA!",
           attachments,
           html: `
@@ -324,9 +323,9 @@ const sendMail = async (req, res, next) => {
                     <tr>
                       <td>
                         <p><strong>Número de factura:</strong> ${body.id}</p>
-                        <p><strong>Cliente:</strong> ${body.client.description}</p>
-                        <p><strong>Sucursal:</strong> ${body.branch.description}</p>
-                        <p><strong>Vendedor:</strong> ${body.seller.description}</p>
+                        <p><strong>Cliente:</strong> ${body.client.razonSocial}</p>
+                        <p><strong>Sucursal:</strong> ${body.branch.descripcion}</p>
+                        <p><strong>Vendedor:</strong> ${body.seller.tercero.razonSocial}</p>
                       </td>
                       <td class="logo">
                         <img
@@ -373,19 +372,20 @@ const sendMail = async (req, res, next) => {
           </html>
           
           `,
-        },
+        }
+        ,
         (error, info) => {
           if (error) {
-            res.json({
-              error,
-            });
+            next(error)
           } else {
             res.json({
               info,
             });
           }
         }
-      );
+      )
+      /* .then((info) => console.log(`Enviado correctamente! ${info.response}`))
+      .catch((error) => next(error)); */
     });
   } catch (error) {
     next(error);

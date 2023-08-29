@@ -1,27 +1,27 @@
-const { Product, ProductSchema} = require('./productModel')
-const { Agency, AgencySchema} = require('./agencyModel')
-const { Client, ClientSchema} = require('./clientModel')
-const { Seller, SellerSchema } = require('./sellerModel')
-const { Branch, BranchSchema } = require('./branchModel')
-const { Order, OrderSchema } = require('./orderModel')
-const { OrderProduct, OrderProductSchema } = require('./order-productModel')
+const { Cliente, ClienteSchema } = require("./clienteModel");
+const { Tercero, TerceroSchema } = require("./terceroModel");
+const { Item, ItemSchema } = require("./itemModel");
+const { ExtensionItem, ExtensionItemSchema } = require("./extensionItemModel");
+const { Vendedor, VendedorSchema } = require("./vendedorModel");
+const { Contacto, ContactoSchema } = require("./contactoModel");
+const { Agencia, AgenciaSchema } = require("./agenciaModel");
 
 function setupModels(sequelize) {
-  Product.init(ProductSchema, Product.config(sequelize))
-  Agency.init(AgencySchema, Agency.config(sequelize))
-  Client.init(ClientSchema, Client.config(sequelize))
-  Seller.init(SellerSchema, Seller.config(sequelize))
-  Branch.init(BranchSchema, Branch.config(sequelize))
-  Order.init(OrderSchema, Order.config(sequelize))
-  OrderProduct.init(OrderProductSchema, OrderProduct.config(sequelize))
+  Contacto.init(ContactoSchema, Contacto.config(sequelize));
+  Agencia.init(AgenciaSchema, Agencia.config(sequelize))
+  Cliente.init(ClienteSchema, Cliente.config(sequelize));
+  Tercero.init(TerceroSchema, Tercero.config(sequelize));
+  Item.init(ItemSchema, Item.config(sequelize));
+  ExtensionItem.init(ExtensionItemSchema, ExtensionItem.config(sequelize));
+  Vendedor.init(VendedorSchema, Vendedor.config(sequelize));
 
-  Product.associate(sequelize.models)
-  Agency.associate(sequelize.models)
-  Client.associate(sequelize.models)
-  Seller.associate(sequelize.models)
-  Branch.associate(sequelize.models)
-  Order.associate(sequelize.models)
-  OrderProduct.associate(sequelize.models)
+  Contacto.associate(sequelize.models);
+  Agencia.associate(sequelize.models)
+  Tercero.associate(sequelize.models);
+  Cliente.associate(sequelize.models);
+  ExtensionItem.associate(sequelize.models);
+  Item.associate(sequelize.models);
+  Vendedor.associate(sequelize.models);
 }
 
-module.exports = setupModels
+module.exports = setupModels;

@@ -1,4 +1,4 @@
-const { models } = require("../libs/postgres");
+const { models } = require("../libs/sqlServer");
 
 const find = () => {
   const orders = models.Order.findAll({

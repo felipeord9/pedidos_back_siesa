@@ -42,11 +42,6 @@ const ItemSchema = {
   },
 };
 
-/* const Item = sequelizeSQL.define("Item", ItemSchema, {
-  tableName: ITEM_TABLE,
-  timestamps: false,
-}); */
-
 class Item extends Model {
   static associate(models) {
     //

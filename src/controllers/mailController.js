@@ -67,7 +67,7 @@ const sendMail = async (req, res, next) => {
               "
             >
               <p style="border-bottom: 1px solid black; background-color: #d6d6d6; padding: 0.3rem 0.5rem; margin: 0;"><strong>No.${
-                body.branch.co ? body.branch.co.id : body.seller.co
+                body.agency.id
               }-PDV-${body.id}</strong></p>
               <p style="padding: 0.2rem 0.5rem; margin: 0; white-space: nowrap;"><strong>Fecha: </strong>${new Date().toLocaleString(
                 "es-CO"
@@ -98,7 +98,7 @@ const sendMail = async (req, res, next) => {
               <div style="position: absolute; top: 0; right: 0; border: 1px solid black; border-radius: 5px; width: 35%; padding: 1rem;">
                 <div>
                   <p style="margin: 0; width: 100%;"><strong style="margin-right: 0.5rem;">C.O: </strong>${
-                    body.branch.co ? body.branch.co.id : body.seller.co
+                    body.agency.id
                   }</p>
                 </div>
                 <div>
@@ -167,7 +167,7 @@ const sendMail = async (req, res, next) => {
     </html>
     `;
     const txt = `C.O;NIT TERCERO;SUCURSAL;ORDEN_COMPRA;NOTAS;ID_VENDEDOR;REFERENCIA;UM;CANTIDAD;PRECIO
-    ${body.products.agregados.map((elem) =>`${body.branch.co ? body.branch.co.id : body.seller.co};${body.client.nit};${body.branch.id};${body.purchaseOrder};${body.observations};${body.seller.id};${elem.id};${elem.um};${elem.amount};${elem.price}
+    ${body.products.agregados.map((elem) =>`${body.agency.id};${body.client.nit};${body.branch.id};${body.purchaseOrder};${body.observations};${body.seller.id};${elem.id};${elem.um};${elem.amount};${elem.price}
     `).join("")}`;
 
     const transporter = await mailService.sendEmails();
@@ -182,14 +182,14 @@ const sendMail = async (req, res, next) => {
       const attachments = [
         {
           filename: `No-${
-            body.branch.co ? body.branch.co.id : body.seller.co
+            body.agency.id
           }-PDV-${body.id}.pdf`,
           content: pdfBuffer,
           contentType: "application/pdf",
         },
         {
           filename: `No-${
-            body.branch.co ? body.branch.co.id : body.seller.co
+            body.agency.id
           }-PDV-${body.id}.txt`,
           content: txt,
         },
@@ -202,12 +202,12 @@ const sendMail = async (req, res, next) => {
           contentType: req.file.mimetype,
         });
 
-      transporter.sendMail(
+        transporter.sendMail(
         {
           from: config.smtpEmail,
           //to: "practicantesistemas@granlangostino.net",
-          to: body.seller.tercero ? body.seller.tercero.contacto.email : body.seller.mailAgency,
-          cc: body.branch.co ? body.branch.co.contacto.email : body.seller.mailCommercial,
+          to: body.agency.contacto.email,
+          cc: body.seller.tercero ? body.seller.tercero.contacto.email : body.seller.mailAgency,
           subject: "¡NUEVO PEDIDO DE VENTA!",
           attachments,
           html: `

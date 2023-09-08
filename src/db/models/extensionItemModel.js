@@ -18,15 +18,6 @@ const ExtensionItemSchema = {
   },
 };
 
-/* const ExtensionItem = sequelizeSQL.define(
-  "ExtensionItem",
-  ExtensionItemSchema,
-  {
-    tableName: EXTENSION_ITEM_TABLE,
-    timestamps: false,
-  }
-); */
-
 class ExtensionItem extends Model {
   static associate(models) {
     this.belongsTo(models.Item, {

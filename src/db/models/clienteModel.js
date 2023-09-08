@@ -35,11 +35,6 @@ const ClienteSchema = {
   },
 };
 
-/* const Cliente = sequelizeSQL.define("Cliente", ClienteSchema, {
-  tableName: CLIENTE_TABLE,
-  timestamps: false,
-}); */
-
 class Cliente extends Model {
   static associate(models) {
     this.belongsTo(models.Tercero, {

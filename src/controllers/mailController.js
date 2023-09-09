@@ -206,7 +206,7 @@ const sendMail = async (req, res, next) => {
         {
           from: config.smtpEmail,
           //to: "practicantesistemas@granlangostino.net",
-          to: body.agency.contacto.email,
+          to: body?.agency?.contacto?.email,
           cc: body.seller.tercero ? body.seller.tercero.contacto.email : body.seller.mailCommercial,
           subject: "¡NUEVO PEDIDO DE VENTA!",
           attachments,
@@ -387,6 +387,7 @@ const sendMail = async (req, res, next) => {
           if (error) {
             next(error);
           } else {
+            console.log(info)
             res.json({
               info,
             });

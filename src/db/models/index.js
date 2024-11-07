@@ -5,6 +5,10 @@ const { ExtensionItem, ExtensionItemSchema } = require("./extensionItemModel");
 const { Vendedor, VendedorSchema } = require("./vendedorModel");
 const { Contacto, ContactoSchema } = require("./contactoModel");
 const { Agencia, AgenciaSchema } = require("./agenciaModel");
+const { InstalacionItem, InstalacionItemSchema } = require("./margenModel");
+const { BodegaItem, BodegaItemSchema } = require("./bodegaModel");
+const { Instalacion, InstalacionSchema } = require("./instalacionModel");
+const { PrecioItem, PrecioSchema } = require("./preciosModel");
 
 function setupModels(sequelize) {
   Contacto.init(ContactoSchema, Contacto.config(sequelize));
@@ -14,6 +18,10 @@ function setupModels(sequelize) {
   Item.init(ItemSchema, Item.config(sequelize));
   ExtensionItem.init(ExtensionItemSchema, ExtensionItem.config(sequelize));
   Vendedor.init(VendedorSchema, Vendedor.config(sequelize));
+  InstalacionItem.init(InstalacionItemSchema, InstalacionItem.config(sequelize));
+  BodegaItem.init(BodegaItemSchema, BodegaItem.config(sequelize));
+  Instalacion.init(InstalacionSchema, Instalacion.config(sequelize));
+  PrecioItem.init(PrecioSchema, PrecioItem.config(sequelize));
 
   Contacto.associate(sequelize.models);
   Agencia.associate(sequelize.models)
@@ -22,6 +30,11 @@ function setupModels(sequelize) {
   ExtensionItem.associate(sequelize.models);
   Item.associate(sequelize.models);
   Vendedor.associate(sequelize.models);
+  InstalacionItem.associate(sequelize.models);
+  BodegaItem.associate(sequelize.models);
+  Instalacion.associate(sequelize.models);
+  PrecioItem.associate(sequelize.models);
+
 }
 
 module.exports = setupModels;

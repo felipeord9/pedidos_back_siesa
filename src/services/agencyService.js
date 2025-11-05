@@ -33,6 +33,32 @@ const find = () => {
   return agencies;
 };
 
+const findPos = () => {
+  const agencies = models.Agencia.findAll({
+    limit: 100,
+    attributes: ['id', 'descripcion'],
+    include: ['contacto'],
+    where: {id: [
+      '005', 
+      '008', 
+      '012',
+      '013',
+      '014',
+      '015',
+      '016',
+      '017',
+      '023',
+      '027',
+      '030',
+      '034',
+      '038',
+      '039',
+    ]}
+  });
+  return agencies;
+};
+
 module.exports = {
-  find
+  find,
+  findPos
 };

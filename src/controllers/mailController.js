@@ -89,6 +89,13 @@ const sendMail = async (req, res, next) => {
                     body.branch.descripcion
                   }</p>
                 </div>
+                ${body.clientPos !== null &&
+                  `<div>
+                    <p style="margin: 0; width: 100%;"><strong style="margin-right: 0.5rem;">Cliente POS: </strong>${
+                      body.clientPos.razonSocial
+                    }</p>
+                  </div>`
+                }
                 <div>
                   <p style="margin: 0; width: 100%;"><strong style="margin-right: 0.5rem;">Nit: </strong>${
                     body.client.nit
@@ -205,7 +212,7 @@ const sendMail = async (req, res, next) => {
         transporter.sendMail(
         {
           from: config.smtpEmail,
-          //to: "practicantesistemas@granlangostino.net",
+          //to: "sistemas2@granlangostino.net",
           to: body?.agency?.contacto?.email,
           cc: body.seller.tercero ? body.seller.tercero.contacto.email : body.seller.mailCommercial,
           subject: "¡NUEVO PEDIDO DE VENTA!",
@@ -331,6 +338,13 @@ const sendMail = async (req, res, next) => {
                         <p><strong>Sucursal:</strong> ${
                           body.branch.descripcion
                         }</p>
+                        ${body.clientPos !== null &&
+                          `
+                            <p><strong>Cliente POS:</strong>${
+                              body.clientPos.razonSocial
+                            }</p>
+                          `
+                        }
                         <p><strong>Vendedor:</strong> ${
                           body.seller.tercero
                             ? body.seller.tercero.razonSocial

@@ -13,6 +13,20 @@ const findAllAgencies = async (req, res, next) => {
   }
 };
 
+const findAllAgenciesPos = async (req, res, next) => {
+  try {
+    const data = await AgencyService.findPos();
+
+    res.status(200).json({
+      message: "OK",
+      data,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
-  findAllAgencies
+  findAllAgencies,
+  findAllAgenciesPos
 }

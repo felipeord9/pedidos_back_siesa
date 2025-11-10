@@ -3,7 +3,7 @@ const { models } = require("../libs/sqlServer");
 
 const find = () => {
   const products = models.ExtensionItem.findAll({
-    limit: 2500,
+    limit: 3000,
     include: {
       association: "item",
       as: "item",

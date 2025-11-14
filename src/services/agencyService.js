@@ -7,6 +7,7 @@ const find = () => {
     include: ['contacto'],
     where: {id: [
       '001', 
+      '004',
       '003', 
       '005', 
       '007', 

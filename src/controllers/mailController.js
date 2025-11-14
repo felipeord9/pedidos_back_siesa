@@ -96,6 +96,13 @@ const sendMail = async (req, res, next) => {
                     }</p>
                   </div>`
                 }
+                ${body.clientPos !== null &&
+                  `<div>
+                    <p style="margin: 0; width: 100%;"><strong style="margin-right: 0.5rem;">Dirección: </strong>${
+                      body.clientPos.direccion
+                    }</p>
+                  </div>`
+                }
                 <div>
                   <p style="margin: 0; width: 100%;"><strong style="margin-right: 0.5rem;">Nit: </strong>${
                     body.client.nit
@@ -342,6 +349,13 @@ const sendMail = async (req, res, next) => {
                           `
                             <p><strong>Cliente POS:</strong>${
                               body.clientPos.razonSocial
+                            }</p>
+                          `
+                        }
+                        ${body.clientPos !== null &&
+                          `
+                            <p><strong>Dirección:</strong>${
+                              body.clientPos.direccion
                             }</p>
                           `
                         }

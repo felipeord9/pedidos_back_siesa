@@ -13,6 +13,22 @@ const findAllClients = async (req, res, next) => {
   }
 };
 
+const findOneClientByNit = async (req, res, next) => {
+  try {
+    const { params : { nit } } = req
+    console.log(nit)
+    const data = await ClientService.findByNit(nit)
+
+    res.status(200).json({
+      message: 'OK',
+      data
+    })
+  } catch (error) {
+    console.log(error)
+    next(error)
+  }
+}
+
 const findOneClient = async (req, res, next) => {
   try {
     const { params:{id}} = req
@@ -44,5 +60,6 @@ const createClient = async (req, res, next) => {
 module.exports = {
   findAllClients,
   findOneClient,
+  findOneClientByNit,
   createClient
 }

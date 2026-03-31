@@ -5,6 +5,49 @@ const find = () => {
   const clients = models.Tercero.findAll({
     limit: 4000,
     attributes: ["nit", "razonSocial"],
+    /* include: [
+      {
+        association: "sucursales",
+        attributes: ["id", "descripcion"],
+        where: {
+          estado: 1,
+          idVendedor: {
+            [Op.not]: null
+          },
+        },
+        include: [
+          {
+            association: "co",
+            attributes: ["id", "descripcion"],
+            include: ["contacto"]
+          },
+          {
+            association: "vendedor",
+            include: [
+              {
+                association: "tercero",
+                attributes: ["nit", "razonSocial"],
+                include: ["contacto"],
+              },
+            ],
+          },
+        ],
+      },
+    ], */
+    where: {
+      nit: {
+        [Op.not]: null,
+      },
+      estado: 1,
+      indicadorCliente: 1,
+    },
+  });
+  return clients;
+};
+
+const findByNit = (nit) => {
+  const client = models.Tercero.findOne({
+    attributes : ["nit", "razonSocial"],
     include: [
       {
         association: "sucursales",
@@ -14,9 +57,6 @@ const find = () => {
           idVendedor: {
             [Op.not]: null
           },
-          /* idCo: {
-            [Op.not]: null
-          } */
         },
         include: [
           {
@@ -38,15 +78,15 @@ const find = () => {
       },
     ],
     where: {
-      nit: {
-        [Op.not]: null,
-      },
-      estado: 1,
-      indicadorCliente: 1,
+      nit: nit
     },
-  });
-  return clients;
-};
+  })
+
+  if(!client) throw Error('No se encontro el cliente')
+
+  return client
+}
+
 /* 
 const findOne = (id) => {
   const client = models.Client.findByPk(id, {
@@ -69,6 +109,7 @@ const create = (body) => {
 
 module.exports = {
   find,
+  findByNit,
   //findOne,
   //create
 };

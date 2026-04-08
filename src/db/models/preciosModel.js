@@ -17,10 +17,10 @@ const PrecioSchema = {
   IdItem:{
     type: DataTypes.INTEGER,
     field: "f126_rowid_item",
-    references: {
+    /* references: {
       model: INSTALACION_ITEM_TABLE,
       key: "IdItemExt",
-    }
+    } */
   },
   fechaActivacion:{
     type: DataTypes.STRING,
@@ -79,9 +79,14 @@ const PrecioSchema = {
 
 class PrecioItem extends Model {
   static associate(models) {
-    /* this.belongsTo(models.Margen, {
-      foreignKey: "IdItemExt",
-    }); */
+    this.belongsTo(models.ListaPrecio, {
+      foreignKey: "IdListaPrecio",
+      as: 'listPrice'
+    });
+    this.belongsTo(models.Item, {
+      foreignKey: "IdItem",
+      as: 'item'
+    });
   }
   static config(sequelize) {
     return {

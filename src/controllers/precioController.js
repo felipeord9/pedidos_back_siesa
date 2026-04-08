@@ -12,6 +12,33 @@ const findAllPrecios = async (req, res, next) => {
   }
 };
 
+const findAllWithList = async (req, res, next) => {
+  try {
+    const data = await PrecioService.findWithList();
+    res.status(200).json({
+      status: "OK",
+      data,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const findAllListWithCo = async (req, res, next) => {
+  try {
+    const {
+      params: { ref , co },
+    } = req;
+    const data = await PrecioService.findListWithCo(ref, co);
+    res.status(200).json({
+      status: "OK",
+      data,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 const findOneCosto = async (req, res, next) => {
   try {
     const {
@@ -80,6 +107,8 @@ const findByInstallAndItem = async (req, res, next) => {
 
 module.exports = {
   findAllPrecios,
+  findAllWithList,
+  findAllListWithCo,
   findOneCosto,
   findOne,
   findByInstall,

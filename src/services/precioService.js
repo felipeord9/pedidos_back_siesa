@@ -9,6 +9,50 @@ const find = () => {
   return precios;
 };
 
+const findWithList = () => {
+  const precios = models.Precio.findAll({
+    limit:1,
+    include:[{
+      association: "listPrice",
+      where: {
+        estado: {
+          [Op.not]: 0
+        },
+      },
+      include: ['listaCo']
+    },'item']
+  });
+
+  return precios;
+};
+
+const findListWithCo = (ref, co) => {
+  const precios = models.Precio.findAll({
+    /* limit:1, */
+    include:[{
+      association: "listPrice",
+      where: {
+        estado: {
+          [Op.not]: 0
+        },
+      },
+      include: [{
+        association: 'listaCo',
+        where: {
+          idCo: co
+        }
+      }]
+    },{
+      association: 'item',
+      where: {
+        codigo: ref
+      }
+    }]
+  });
+
+  return precios;
+};
+
 const findOne = (id) => {
     const precio = models.Precio.findAll({
       where: {
@@ -63,5 +107,7 @@ module.exports = {
   findOne,
   findItem,
   findInstall,
-  findInstallAndItem
+  findInstallAndItem,
+  findWithList,
+  findListWithCo,
 };

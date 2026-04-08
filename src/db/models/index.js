@@ -9,6 +9,8 @@ const { InstalacionItem, InstalacionItemSchema } = require("./margenModel");
 const { BodegaItem, BodegaItemSchema } = require("./bodegaModel");
 const { Instalacion, InstalacionSchema } = require("./instalacionModel");
 const { PrecioItem, PrecioSchema } = require("./preciosModel");
+const { ListaPrecioCo, ListaPrecioCoSchema } = require("./listaPrecioCoModel");
+const { ListaPrecio, ListaPrecioSchema } = require("./listaPrecioModel");
 
 function setupModels(sequelize) {
   Contacto.init(ContactoSchema, Contacto.config(sequelize));
@@ -22,6 +24,8 @@ function setupModels(sequelize) {
   BodegaItem.init(BodegaItemSchema, BodegaItem.config(sequelize));
   Instalacion.init(InstalacionSchema, Instalacion.config(sequelize));
   PrecioItem.init(PrecioSchema, PrecioItem.config(sequelize));
+  ListaPrecioCo.init(ListaPrecioCoSchema, ListaPrecioCo.config(sequelize));
+  ListaPrecio.init(ListaPrecioSchema, ListaPrecio.config(sequelize));
 
   Contacto.associate(sequelize.models);
   Agencia.associate(sequelize.models)
@@ -34,6 +38,8 @@ function setupModels(sequelize) {
   BodegaItem.associate(sequelize.models);
   Instalacion.associate(sequelize.models);
   PrecioItem.associate(sequelize.models);
+  ListaPrecioCo.associate(sequelize.models);
+  ListaPrecio.associate(sequelize.models);
 
 }
 

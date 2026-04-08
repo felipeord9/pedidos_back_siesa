@@ -5,6 +5,8 @@ const router = express.Router()
 
 router
   .get('/', PrecioController.findAllPrecios)
+  .get('/list', PrecioController.findAllWithList)
+  .get('/ref/:ref/co/:co', PrecioController.findAllListWithCo)
   .get('/:id', PrecioController.findOneCosto)
   .get('/item/:id', PrecioController.findOne)
   .get('/install/:id', PrecioController.findByInstall)

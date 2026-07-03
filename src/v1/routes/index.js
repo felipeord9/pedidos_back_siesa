@@ -10,6 +10,7 @@ const BodegaRoutes = require('./bodegaRoutes')
 const InstalacionRoutes = require('./instalacionRoutes')
 const PrecioRoutes = require('./precioRoutes')
 const ListaPrecioRoutes = require('./listaPrecioRoutes')
+const CriterioRoutes = require('./itemCriterioRoutes')
 
 function routerApi(app) {
     const router = express.Router()
@@ -27,6 +28,7 @@ function routerApi(app) {
     router.use('/instalacion', InstalacionRoutes)
     router.use('/precio', PrecioRoutes)
     router.use('/lista', ListaPrecioRoutes)
+    router.use('/criterio', CriterioRoutes)
 
 }
 

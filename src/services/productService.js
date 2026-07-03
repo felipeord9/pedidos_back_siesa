@@ -36,15 +36,38 @@ const find = () => {
   return products;
 };
 
-/* const findOne = (id) => {
-  const product = models.Product.findByPk(id)
+const findOne = (id) => {
+  const product = models.ExtensionItem.findOne({
+    include: {
+      association: "item",
+      as: "item",
+      where: {
+        codigo: id,
+        tipo: [1, 3],
+        indicadorVenta: 1,
+        tipoInventario: {
+          [Op.notIn]: [
+            "IV140504  ",
+            "IV143030  ",
+            "IV141002  ",
+            "IV143515  ",
+            "IV143535  ",
+            "IV145505  ",
+          ],
+        },
+      },
+    },
+    where: {
+      estado: 1,
+    },
+  })
 
   if(!product) throw new Error('No se encontro el producto')
 
   return product
-} */
+}
 
 module.exports = {
   find,
-  //findOne
+  findOne
 };

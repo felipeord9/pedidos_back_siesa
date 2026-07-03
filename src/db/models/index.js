@@ -11,6 +11,7 @@ const { Instalacion, InstalacionSchema } = require("./instalacionModel");
 const { PrecioItem, PrecioSchema } = require("./preciosModel");
 const { ListaPrecioCo, ListaPrecioCoSchema } = require("./listaPrecioCoModel");
 const { ListaPrecio, ListaPrecioSchema } = require("./listaPrecioModel");
+const { CriterioItem, CriterioItemSchema } = require("./criterioItemModel");
 
 function setupModels(sequelize) {
   Contacto.init(ContactoSchema, Contacto.config(sequelize));
@@ -26,6 +27,7 @@ function setupModels(sequelize) {
   PrecioItem.init(PrecioSchema, PrecioItem.config(sequelize));
   ListaPrecioCo.init(ListaPrecioCoSchema, ListaPrecioCo.config(sequelize));
   ListaPrecio.init(ListaPrecioSchema, ListaPrecio.config(sequelize));
+  CriterioItem.init(CriterioItemSchema, CriterioItem.config(sequelize));
 
   Contacto.associate(sequelize.models);
   Agencia.associate(sequelize.models)
@@ -40,6 +42,7 @@ function setupModels(sequelize) {
   PrecioItem.associate(sequelize.models);
   ListaPrecioCo.associate(sequelize.models);
   ListaPrecio.associate(sequelize.models);
+  CriterioItem.associate(sequelize.models);
 
 }
 
